@@ -13,7 +13,6 @@ import java.net.URI;
 @ControllerAdvice
 public class ApplicationExceptionHandler {
 
-
     @ExceptionHandler(UserNotFound.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail userNotFound(UserNotFound e, HttpServletRequest request) {
