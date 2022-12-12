@@ -1,41 +1,43 @@
 package com.anr.service.impl;
 
 import com.anr.httpclient.PeopleClient;
-import com.anr.exception.UserNotFound;
 import com.anr.model.People;
-import com.anr.model.User;
 import com.anr.service.UserService;
-import lombok.NoArgsConstructor;
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 @Service
-@RequiredArgsConstructor
-@Slf4j
-public class UserServiceImpl implements UserService {
 
+@Slf4j
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
     private final PeopleClient peopleClient;
 
+    private final ObservationRegistry observationRegistry;
+
     @Override
-    public User createUser(User user) {
+    public People createUser(People user) {
 
-        People people = peopleClient.savePeople(People.builder().id(String.valueOf(user.id())).name(user.name()).build());
-        log.info("people saved successfully");
+        People posts = Observation
+                .createNotStarted("json-place-holder.create-users", observationRegistry)
+                .lowCardinalityKeyValue("some-value", "100")
+                .observe(() -> peopleClient.savePeople(user));
 
 
-        return new User(Integer.valueOf(people.getId()), people.getName());
+        People people = peopleClient.savePeople(user);
+
+
+        return people;
+
     }
 
     @Override
-    public User findByUserId(Integer id) {
+    public People findByUserId(Integer id) {
 
-        People people = peopleClient.getPeople(id);
-        log.info("people called successfully");
-        return new User(Integer.valueOf(people.getId()), people.getName());
+        return peopleClient.getPeople(id);
     }
 }

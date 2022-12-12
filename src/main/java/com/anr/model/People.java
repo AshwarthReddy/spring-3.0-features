@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class People {
     private String id;
     private String name;
-    private String mobile;
+    private String email;
     private String emailId;
+    private Addresses addresses;
 }

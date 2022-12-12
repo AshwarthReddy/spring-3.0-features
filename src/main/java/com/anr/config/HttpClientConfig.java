@@ -13,7 +13,7 @@ public class HttpClientConfig {
     @Bean
     public PeopleClient peopleClient(WebClient.Builder builder) {
         WebClient webClient = builder
-                .baseUrl("http://localhost:9090")
+                .baseUrl("https://jsonplaceholder.typicode.com")
                 .build();
         HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
         PeopleClient peopleClient = factory.createClient(PeopleClient.class);
