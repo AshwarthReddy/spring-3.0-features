@@ -8,12 +8,14 @@ import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
-@HttpExchange(url = "/people")
+import java.util.List;
+
+@HttpExchange(url = "/users")
 public interface PeopleClient {
 
     @PostExchange
     People savePeople(@RequestBody People people);
 
-    @GetExchange
+    @GetExchange("/{id}")
     People getPeople(@PathVariable Integer id);
 }

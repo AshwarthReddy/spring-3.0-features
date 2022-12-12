@@ -1,9 +1,9 @@
 package com.anr.service;
 
-import com.anr.model.User;
+import com.anr.model.People;
 
 public interface UserService {
-    User createUser(User user);
+    People createUser(People user);
 
-    User findByUserId(Integer id);
+    People findByUserId(Integer id);
 }
